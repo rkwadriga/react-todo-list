@@ -1,5 +1,6 @@
 import create from "zustand";
 import { generateId } from "../helpers";
+import { devtools } from "zustand/middleware";
 
 interface Task {
     id: string;
@@ -14,19 +15,8 @@ interface ToDoStore {
     removeTask: (id: string) => void;
 }
 
-export const useToDoStore = create<ToDoStore>((set, get) => ({
-    tasks: [
-        {
-            id: "2324545456",
-            title: "Test task 1",
-            createdAt: 23455667
-        },
-        {
-            id: "7414598733",
-            title: "Test task 2",
-            createdAt: 23455923
-        }
-    ],
+export const useToDoStore = create<ToDoStore>(devtools((set, get) => ({
+    tasks: [],
     createTask: (title: string) => {
         const { tasks } = get();
         const newTask = {
@@ -53,4 +43,4 @@ export const useToDoStore = create<ToDoStore>((set, get) => ({
             tasks: tasks.filter(task => task.id !== id),
         });
     }
-}));
+})));
